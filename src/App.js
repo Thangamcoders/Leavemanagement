@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import LeaveForm from './LeaveForm';
+import LeaveList from './LeaveList';
 import './App.css';
 
 function App() {
+  const [leaves, setLeaves] = useState([]);
+
+  const addLeave = (leave) => {
+    setLeaves([...leaves, leave]);
+  };
+
+  const updateLeaveStatus = (index, status) => {
+    const updatedLeaves = leaves.map((leave, i) => 
+      i === index ? { ...leave, status } : leave
+    );
+    setLeaves(updatedLeaves);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>Leave Management System</h1>
       </header>
+      <LeaveForm addLeave={addLeave} />
+      <LeaveList leaves={leaves} updateLeaveStatus={updateLeaveStatus} />
     </div>
   );
 }
